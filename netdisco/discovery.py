@@ -8,6 +8,7 @@ from .mdns import MDNS
 from .gdm import GDM
 from .lms import LMS
 from .tellstick import Tellstick
+from .mobilealerts import MobileAlerts
 from .daikin import Daikin
 from .smartglass import XboxSmartGlass
 
@@ -22,6 +23,7 @@ class NetworkDiscovery:
     GDM scans in the foreground.
     LMS scans in the foreground.
     Tellstick scans in the foreground
+    Mobile Alerts scans in the foreground
     Xbox One scans in the foreground
 
     start: is ready to scan
@@ -39,6 +41,7 @@ class NetworkDiscovery:
         self.gdm = None
         self.lms = None
         self.tellstick = None
+        self.mobilealerts = None
         self.daikin = None
         self.xbox_smartglass = None
 
@@ -68,6 +71,9 @@ class NetworkDiscovery:
         self.tellstick = Tellstick()
         self.tellstick.scan()
 
+        self.mobilealerts = MobileAlerts()
+        self.mobilealerts.scan()
+
         self.daikin = Daikin()
         self.daikin.scan()
 
@@ -86,6 +92,7 @@ class NetworkDiscovery:
         self.gdm = None
         self.lms = None
         self.tellstick = None
+        self.mobilealerts = None
         self.daikin = None
         self.xbox_smartglass = None
         self.discoverables = None
@@ -144,6 +151,9 @@ class NetworkDiscovery:
         print("")
         print("Tellstick")
         pprint(self.tellstick.entries)
+        print("")
+        print("Mobile Alerts")
+        pprint(self.mobilealerts.entries)
         print("")
         print("Xbox SmartGlass")
         pprint(self.xbox_smartglass.entries)
