@@ -9,6 +9,7 @@ from .gdm import GDM
 from .lms import LMS
 from .tellstick import Tellstick
 from .mobilealerts import MobileAlerts
+from .loxone import Loxone
 from .daikin import Daikin
 from .smartglass import XboxSmartGlass
 
@@ -42,6 +43,7 @@ class NetworkDiscovery:
         self.lms = None
         self.tellstick = None
         self.mobilealerts = None
+        self.loxone = None
         self.daikin = None
         self.xbox_smartglass = None
 
@@ -74,6 +76,9 @@ class NetworkDiscovery:
         self.mobilealerts = MobileAlerts()
         self.mobilealerts.scan()
 
+        self.loxone = Loxone()
+        self.loxone.scan()
+
         self.daikin = Daikin()
         self.daikin.scan()
 
@@ -93,6 +98,7 @@ class NetworkDiscovery:
         self.lms = None
         self.tellstick = None
         self.mobilealerts = None
+        self.loxone = None
         self.daikin = None
         self.xbox_smartglass = None
         self.discoverables = None
@@ -154,6 +160,9 @@ class NetworkDiscovery:
         print("")
         print("Mobile Alerts")
         pprint(self.mobilealerts.entries)
+        print("")
+        print("Loxone")
+        pprint(self.loxone.entries)
         print("")
         print("Xbox SmartGlass")
         pprint(self.xbox_smartglass.entries)
