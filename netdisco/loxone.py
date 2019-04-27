@@ -2,6 +2,7 @@
 import socket
 from datetime import timedelta
 import logging
+import re
 
 
 BROADCAST_SEND_PORT = 7070
@@ -9,6 +10,7 @@ BROADCAST_LSTN_PORT = 7071
 BROADCAST_ADDR = '<broadcast>'
 DISCOVERY_PAYLOAD = b"\x00"
 DISCOVERY_TIMEOUT = timedelta(seconds=3)
+RESPONSE_REGEX = re.compile(r'LoxLIVE: (?P<friendlyName>Loxone .+) (?P<LastUsedIP>[\d\.]+):(?P<HTTPport>[\d]+) (?P<serialNumber>504F........) (?P<version>[\d\.]+) Prog:(?P<configurationDate>[\d\- :]*) Type:(?P<Type>.+) HwId:(?P<HwId>.+) IPv6:(?P<IPv6>.+)')
 
 
 class Loxone:
@@ -48,17 +50,8 @@ class Loxone:
                         continue
                     name = replyStr[8:].split('%s' % address)[0].strip()
                     para = replyStr.split('%s' % address)[1].split(' ')
-                    #print(address,replyStr)
-                    entry = {'Address':address,
-                             'Name':name,
-                             'Port':int(para[0][1:]),
-                             'Serial':para[1],
-                             'Version':para[2],
-                             'Prog':(para[3]+' '+para[4])[5:],
-                             'Type':para[5][5:],
-                             'HwId':para[6][5:],
-                             'IPv6':para[7][5:]
-                             }
+                    entry = RESPONSE_REGEX.match(replyStr).groupdict()
+                    entry['Address'] = address
                     entries.append(entry)
 
                 except socket.timeout:
